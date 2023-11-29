@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity, Pressable } from "react-native";
 import { styled } from "nativewind";
-
+import * as Clipboard from 'expo-clipboard';
 
 
 export function ModalPassword({password, handleClose}){
@@ -10,11 +10,17 @@ export function ModalPassword({password, handleClose}){
     const StyledButton = styled(TouchableOpacity)
     const StyledPressable = styled(Pressable)
 
+    async function handleCopyPassword(){
+        await Clipboard.setStringAsync(password)
+        handleClose();
+        alert("Senha copiada com sucesso!")
+    }
+
     return(
         <StyledView className="flex-1 items-center justify-center bg-black opacity-90">
             <StyledView className="flex bg-white items-center justify-center p-5 rounded-md w-4/5">
                 <StyledText className="font-bold text-lg">Senha gerada</StyledText>
-                <StyledPressable className="bg-black rounded-md p-2 mt-4 w-4/5 items-center">
+                <StyledPressable onLongPress={handleCopyPassword} className="bg-black rounded-md p-2 mt-4 w-4/5 items-center">
                     <StyledText className="font-bold text-white">{password}</StyledText>
                 </StyledPressable>
 
